@@ -10,12 +10,13 @@ import cn.changhsqinda.scrollingtable.viewmodel.ViewModelActivityMain
 class MainActivity : AppCompatActivity() {
 
     private val viewModelActivityMain: ViewModelActivityMain by viewModels()
-    private lateinit var dataBinding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        dataBinding.viewModelActivityMain = this@MainActivity.viewModelActivityMain
-        dataBinding.lifecycleOwner = this@MainActivity
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.viewModelActivityMain = this@MainActivity.viewModelActivityMain
+        binding.lifecycleOwner = this@MainActivity
+        viewModelActivityMain.emptyDataInit()
     }
 }

@@ -4,6 +4,14 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="cn.changhsqinda.scrollingtable.viewmodel.ViewModelActivityMain" />
+
+        <variable
+            name="item"
+            type="cn.changhsqinda.scrollingtable.data.Empty" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +22,7 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:gravity="center"
-            android:text="Empty"
+            android:text="@{item.title}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
