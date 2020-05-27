@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="cn.changhsqinda.scrollingtable.viewmodel.ViewModelActivitySecond" />
+
+        <variable
+            name="item"
+            type="java.util.ArrayList&lt;cn.changhsqinda.scrollingtable.data.Empty>" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ItemTitle"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="@{@string/app_name}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scrollingTableContent"
+            tableItemAdapterViewModelItemBind="@{viewModel}"
+            tableItemAdapterItemDataBind="@{item}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ItemTitle"
+            app:layout_constraintTop_toTopOf="@+id/ItemTitle"
+            tools:listitem="@layout/layout_scrolling_table_item" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
