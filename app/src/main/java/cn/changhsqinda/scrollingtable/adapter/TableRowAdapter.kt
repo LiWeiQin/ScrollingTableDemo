@@ -11,9 +11,16 @@ import cn.changhsqinda.scrollingtable.data.Empty
 import cn.changhsqinda.scrollingtable.databinding.LayoutScrollingTableItemBinding
 import cn.changhsqinda.scrollingtable.viewmodel.ViewModelActivityMain
 
-@BindingAdapter(value = ["tableRowAdapterViewModelBind","tableRowAdapterDataBind"], requireAll = true)
-fun tableRowAdapterViewModelBind(recyclerView : RecyclerView ,viewModel : ViewModelActivityMain, data : List<Empty>?){
-    if(null == recyclerView.adapter){
+@BindingAdapter(
+    value = ["tableRowAdapterViewModelBind", "tableRowAdapterDataBind"],
+    requireAll = true
+)
+fun tableRowAdapterViewModelBind(
+    recyclerView: RecyclerView,
+    viewModel: ViewModelActivityMain,
+    data: List<Empty>?
+) {
+    if (null == recyclerView.adapter) {
         recyclerView.adapter = TableRowAdapter(viewModel)
     }
     (recyclerView.adapter as TableRowAdapter).submitList(data ?: arrayListOf())
@@ -24,6 +31,7 @@ class TableRowAdapter(private val viewModel: ViewModelActivityMain) :
 
 
     companion object {
+
         private val diffCallback = object : DiffUtil.ItemCallback<Empty>() {
             override fun areItemsTheSame(oldItem: Empty, newItem: Empty): Boolean {
                 return oldItem == newItem
@@ -36,9 +44,8 @@ class TableRowAdapter(private val viewModel: ViewModelActivityMain) :
     }
 
 
-    override fun getItemViewType(position: Int): Int {
-        return R.layout.layout_scrolling_table_item
-    }
+    override fun getItemViewType(position: Int): Int =
+        R.layout.layout_scrolling_table_item
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -55,7 +62,6 @@ class TableRowAdapter(private val viewModel: ViewModelActivityMain) :
             is RowViewHolder -> holder.bindTo(getItem(position))
         }
     }
-
 }
 
 class RowViewHolder(val binding: LayoutScrollingTableItemBinding) :
@@ -64,3 +70,4 @@ class RowViewHolder(val binding: LayoutScrollingTableItemBinding) :
         binding.item = item
     }
 }
+

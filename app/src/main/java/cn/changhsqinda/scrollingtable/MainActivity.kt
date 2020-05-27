@@ -1,9 +1,10 @@
 package cn.changhsqinda.scrollingtable
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import cn.changhsqinda.scrollingtable.databinding.ActivityMainBinding
 import cn.changhsqinda.scrollingtable.viewmodel.ViewModelActivityMain
 
@@ -17,6 +18,52 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModelActivityMain = this@MainActivity.viewModelActivityMain
         binding.lifecycleOwner = this@MainActivity
-        viewModelActivityMain.emptyDataInit()
+        binding.apply {
+            scrollingTableRow.apply {
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        if (recyclerView.scrollState != RecyclerView.SCROLL_STATE_IDLE) {
+                            binding.scrollingTableContent.scrollBy(dx, dy)
+                        }
+                        if (smartRefreshLayout.state.isFinishing) {
+                            binding.scrollingTableContent.scrollBy(dx, dy)
+                        }
+                    }
+                })
+            }
+            scrollingTableContent.apply {
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        if (recyclerView.scrollState != RecyclerView.SCROLL_STATE_IDLE) {
+                            binding.scrollingTableRow.scrollBy(dx, dy)
+                        }
+                        if (smartRefreshLayout.state.isFinishing) {
+                            binding.scrollingTableRow.scrollBy(dx, dy)
+                        }
+                    }
+                })
+            }
+            smartRefreshLayout.apply {
+                setOnRefreshListener {
+                    finishRefresh()
+                    setDataResult()
+                }
+                setOnLoadMoreListener {
+                    loadDataResult()
+                    finishLoadMore(0, true, false)
+                }
+            }
+            smartRefreshLayout.autoRefresh()
+        }
+    }
+
+    private fun setDataResult() {
+        viewModelActivityMain.setDataResult()
+    }
+
+    private fun loadDataResult() {
+        viewModelActivityMain.loadDataResult()
     }
 }

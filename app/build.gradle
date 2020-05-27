@@ -67,4 +67,6 @@ dependencies {
 
     //公共库
     implementation 'com.github.Arcns.arcnslibrary:arcns-core:0.1.00'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
 }
