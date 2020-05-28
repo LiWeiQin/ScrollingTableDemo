@@ -75,7 +75,6 @@ class SecondActivity : AppCompatActivity() {
                 })
             }
         }
-        setDataResult()
     }
 
     private fun setDataResult() {

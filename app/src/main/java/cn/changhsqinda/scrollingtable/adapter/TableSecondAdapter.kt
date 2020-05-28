@@ -27,30 +27,22 @@ fun tableItemAdapterViewModelBind(
     recyclerViewColumn: RecyclerView
 ) {
     if (null == recyclerView.adapter) {
-        recyclerView.adapter = TableSecondAdapter(viewModel)
+        recyclerView.adapter = TableSecondAdapter(viewModel, data)
         (recyclerView.adapter as TableSecondAdapter).syncScrollViewChangeObserver.mScrollListeners.add(
             recyclerViewColumn
         )
     }
-    (recyclerView.adapter as TableSecondAdapter).submitList(data ?: arrayListOf())
+    (recyclerView.adapter as TableSecondAdapter).data = data
+    (recyclerView.adapter as TableSecondAdapter).notifyDataSetChanged()
 }
 
-class TableSecondAdapter(private val viewModel: ViewModelActivitySecond) :
-    ListAdapter<List<Empty>, RecyclerView.ViewHolder>(diffCallback) {
+class TableSecondAdapter(
+    private val viewModel: ViewModelActivitySecond,
+    var data: List<List<Empty>>? = arrayListOf()
+) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val syncScrollViewChangeObserver = SyncScrollViewChangeObserver
-
-    companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<List<Empty>>() {
-            override fun areItemsTheSame(oldItem: List<Empty>, newItem: List<Empty>): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(oldItem: List<Empty>, newItem: List<Empty>): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
 
 
     override fun getItemViewType(position: Int): Int = R.layout.layout_scrolling_table_second_item
@@ -95,7 +87,7 @@ class TableSecondAdapter(private val viewModel: ViewModelActivitySecond) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ItemSecondViewHolder -> {
-                holder.bindTo(getItem(position))
+                holder.bindTo(data?.get(position) ?: arrayListOf())
             }
         }
     }
@@ -103,6 +95,10 @@ class TableSecondAdapter(private val viewModel: ViewModelActivitySecond) :
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         super.onViewAttachedToWindow(holder)
         syncScrollViewChangeObserver.scrollToPosition((holder as ItemSecondViewHolder).binding.scrollingTableItemContent)
+    }
+
+    override fun getItemCount(): Int {
+        return data?.size ?: 0
     }
 }
 
