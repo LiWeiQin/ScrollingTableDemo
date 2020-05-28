@@ -1,3 +1,3 @@
 package cn.changhsqinda.scrollingtable.data
 
-data class Empty(val title: String)
+data class Empty(val title: String = "null")

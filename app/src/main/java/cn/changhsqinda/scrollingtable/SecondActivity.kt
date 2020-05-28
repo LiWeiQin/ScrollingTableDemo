@@ -26,14 +26,14 @@ class SecondActivity : AppCompatActivity() {
                     finishRefresh()
                     setDataResult()
                 }
-//                setOnLoadMoreListener {
-//                    isDeviationHeight = true
-//                    loadDataResult()
-//                    finishLoadMore(2000, true, false)
-//                }
+                setOnLoadMoreListener {
+                    isDeviationHeight = true
+                    loadDataResult()
+                    finishLoadMore(2000, true, false)
+                }
             }
             smartRefreshLayout.autoRefresh()
-
+            secondScrollingTableItemContent.setHasFixedSize(true)
             secondScrollingTableItemContent.apply {
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

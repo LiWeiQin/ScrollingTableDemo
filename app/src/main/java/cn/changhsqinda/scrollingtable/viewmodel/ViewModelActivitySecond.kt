@@ -39,7 +39,7 @@ class ViewModelActivitySecond : ViewModel() {
     fun setDataResult() {
         _dataEmpty.value = _dataEmpty.value.let {
             val data = arrayListOf<List<Empty>>()
-            for (i in 0 until 500) {
+            for (i in 0 until 1500) {
                 val temp = arrayListOf<Empty>()
                 for (index in 0 until count.value!!) {
                     temp.add(Empty(title = "第${i}行-第${index}个"))
@@ -54,7 +54,7 @@ class ViewModelActivitySecond : ViewModel() {
         _dataEmpty.value = _dataEmpty.value.let {
             val data = arrayListOf<List<Empty>>()
             data.addAll(it ?: arrayListOf())
-            for (i in data.count() until data.count() + 30) {
+            for (i in data.count() until data.count() + 500) {
                 val temp = arrayListOf<Empty>()
                 for (index in 0 until count.value!!) {
                     temp.add(Empty(title = "第${i}行-第${index}个"))
