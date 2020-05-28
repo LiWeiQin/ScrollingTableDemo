@@ -39,7 +39,7 @@ class ViewModelActivitySecond : ViewModel() {
     fun setDataResult() {
         _dataEmpty.value = _dataEmpty.value.let {
             val data = arrayListOf<List<Empty>>()
-            for (i in 0 until 1500) {
+            for (i in 0 until 50) {
                 val temp = arrayListOf<Empty>()
                 for (index in 0 until count.value!!) {
                     temp.add(Empty(title = "第${i}行-第${index}个"))
