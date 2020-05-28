@@ -5,15 +5,15 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import cn.changhsqinda.scrollingtable.databinding.ActivityMainBinding
+import cn.changhsqinda.scrollingtable.adapter.TableSecondAdapter
 import cn.changhsqinda.scrollingtable.databinding.ActivitySecondBinding
-import cn.changhsqinda.scrollingtable.viewmodel.ViewModelActivityMain
 import cn.changhsqinda.scrollingtable.viewmodel.ViewModelActivitySecond
 
 class SecondActivity : AppCompatActivity() {
 
     private val viewModelActivitySecond: ViewModelActivitySecond by viewModels()
     private lateinit var binding: ActivitySecondBinding
+    private var isDeviationHeight = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +26,56 @@ class SecondActivity : AppCompatActivity() {
                     finishRefresh()
                     setDataResult()
                 }
-                setOnLoadMoreListener {
-                    loadDataResult()
-                    finishLoadMore(0, true, false)
-                }
+//                setOnLoadMoreListener {
+//                    isDeviationHeight = true
+//                    loadDataResult()
+//                    finishLoadMore(2000, true, false)
+//                }
             }
             smartRefreshLayout.autoRefresh()
+
+            secondScrollingTableItemContent.apply {
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        if (recyclerView.scrollState != RecyclerView.SCROLL_STATE_IDLE) {
+                            binding.secondScrollingTableRow.scrollBy(dx, dy)
+                        }
+                        if (smartRefreshLayout.state.isFinishing && isDeviationHeight) {
+                            isDeviationHeight = false
+                            binding.secondScrollingTableRow.scrollBy(dx, dy)
+                        }
+                    }
+                })
+            }
+            secondScrollingTableRow.apply {
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        if (recyclerView.scrollState != RecyclerView.SCROLL_STATE_IDLE) {
+                            binding.secondScrollingTableItemContent.scrollBy(dx, dy)
+                        }
+                        if (smartRefreshLayout.state.isFinishing && isDeviationHeight) {
+                            isDeviationHeight = false
+                            binding.secondScrollingTableItemContent.scrollBy(dx, dy)
+                        }
+                    }
+                })
+            }
+
+            secondScrollingTableColumn.apply {
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        if (recyclerView.scrollState != RecyclerView.SCROLL_STATE_IDLE) {
+                            (binding.secondScrollingTableItemContent.adapter as? TableSecondAdapter)
+                                ?.syncScrollViewChangeObserver?.onScrolled(recyclerView, dx, dy)
+                        }
+                    }
+                })
+            }
         }
+        setDataResult()
     }
 
     private fun setDataResult() {

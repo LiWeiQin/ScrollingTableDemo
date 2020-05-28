@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding.viewModelActivityMain = this@MainActivity.viewModelActivityMain
         binding.lifecycleOwner = this@MainActivity
         binding.apply {
-            scrollingTableRow.apply {
+            scrollingTableContent.apply {
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
@@ -37,10 +37,10 @@ class MainActivity : AppCompatActivity() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
                         if (recyclerView.scrollState != RecyclerView.SCROLL_STATE_IDLE) {
-                            binding.scrollingTableRow.scrollBy(dx, dy)
+                            binding.mainScrollingTableRow.scrollBy(dx, dy)
                         }
                         if (smartRefreshLayout.state.isFinishing) {
-                            binding.scrollingTableRow.scrollBy(dx, dy)
+                            binding.mainScrollingTableRow.scrollBy(dx, dy)
                         }
                     }
                 })

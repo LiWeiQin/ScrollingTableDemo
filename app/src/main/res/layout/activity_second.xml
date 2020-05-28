@@ -10,38 +10,62 @@
             type="cn.changhsqinda.scrollingtable.viewmodel.ViewModelActivitySecond" />
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/smartRefreshLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/secondScrollingTableColumn"
+                secondTableColumnAdapterDataBind="@{viewModelActivitySecond.dataColumn}"
+                secondTableColumnAdapterViewModelBind="@{viewModelActivitySecond}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginStart="100dp"
+                android:layout_marginLeft="100dp"
+                android:visibility="visible"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/layout_scrolling_table_item" />
 
-                <include
-                    android:id="@+id/scrollingTableColumn"
-                    layout="@layout/layout_scrolling_table_second_item" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/secondScrollingTableRow"
+                secondTableRowAdapterDataBind="@{viewModelActivitySecond.dataRow}"
+                secondTableRowAdapterViewModelBind="@{viewModelActivitySecond}"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toStartOf="@+id/secondScrollingTableColumn"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/secondScrollingTableItemContent"
+                tools:listitem="@layout/layout_scrolling_table_item" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/scrollingTableRow"
-                    tableItemAdapterDataBind="@{viewModelActivitySecond.dataEmpty}"
-                    tableItemAdapterViewModelBind="@{viewModelActivitySecond}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="50dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/layout_scrolling_table_second_item" />
-            </LinearLayout>
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/secondScrollingTableItemContent"
+                tableItemAdapterBindColumnRecyclerView="@{secondScrollingTableColumn}"
+                tableItemAdapterDataBind="@{viewModelActivitySecond.dataEmpty}"
+                tableItemAdapterViewModelBind="@{viewModelActivitySecond}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/secondScrollingTableColumn"
+                app:layout_constraintTop_toBottomOf="@+id/secondScrollingTableColumn"
+                tools:listitem="@layout/layout_scrolling_table_second_item" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </layout>
